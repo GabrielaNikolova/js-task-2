@@ -3,30 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Quiz App</title>
   </head>
   <body>
     <header class="page-header">
       <h1>Quiz App</h1>
+      <nav class="quiz-navigation">
+        <form class="quiz-filter" action="" method="post">
+          <label for="category">Select category:</label>
+          <select id="category">
+            <option value="general">General Knowledge</option>
+            <option value="geography">Geography</option>
+            <option value="history">History</option>
+            <option value="sports">Sports</option>
+            <option value="films">Entertainment: Film</option>
+            <option value="any" selected>Any category</option>
+          </select>
+          <label for="difficulty">Difficulty level:</label>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+            <option value="any" selected>Any</option>
+          </select>
+          <label for="questions-amount">Number of Questions:</label>
+          <input
+            type="number"
+            name="questions-amount"
+            id="questions-amount"
+            min="1"
+            max="50"
+            value="10" />
+          <button id="get-questions" type="submit">Start the Quiz</button>
+        </form>
+      </nav>
     </header>
     <main class="page-container">
+        <h2>Select one answer!</h2>
       <section class="questions-container">
         <article class="question-card">
-          <h2 class="question">First question</h2>
+          <h3 class="question">First question</h3>
           <ul class="answer-list">
             <li class="answer">
               <label for="answer-box"></label>
-              <input type="checkbox" id="answer-box" name="answer-box" />
-              <span>answer</span>
-            </li>
-            <li class="answer">
-              <label for="answer-box"></label>
-              <input type="checkbox" id="answer-box" name="answer-box" />
-              <span>answer</span>
-            </li>
-            <li class="answer">
-              <label for="answer-box"></label>
-              <input type="checkbox" id="answer-box" name="answer-box" />
+              <input type="radio" id="answer-box" name="answer-box" />
               <span>answer</span>
             </li>
           </ul>

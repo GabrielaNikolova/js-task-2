@@ -9,14 +9,12 @@
     <header class="page-header">
       <h1>Quiz App</h1>
       <nav class="quiz-navigation">
-        <form class="quiz-filter" action="" method="post">
+        <form class="quiz-filter" id="filter" action="" method="get">
           <label for="category">Select category:</label>
           <select id="category">
             <option value="general">General Knowledge</option>
             <option value="geography">Geography</option>
             <option value="history">History</option>
-            <option value="sports">Sports</option>
-            <option value="films">Entertainment: Film</option>
             <option value="any" selected>Any category</option>
           </select>
           <label for="difficulty">Difficulty level:</label>
@@ -26,11 +24,11 @@
             <option value="hard">Hard</option>
             <option value="any" selected>Any</option>
           </select>
-          <label for="questions-amount">Number of Questions:</label>
+          <label for="amount">Number of Questions:</label>
           <input
             type="number"
-            name="questions-amount"
-            id="questions-amount"
+            name="amount"
+            id="amount"
             min="1"
             max="50"
             value="10" />
@@ -39,14 +37,29 @@
       </nav>
     </header>
     <main class="page-container">
-        <h2>Select one answer!</h2>
+      <h2>Select one answer!</h2>
       <section class="questions-container">
         <article class="question-card">
           <h3 class="question">First question</h3>
           <ul class="answer-list">
-            <li class="answer">
-              <label for="answer-box"></label>
-              <input type="radio" id="answer-box" name="answer-box" />
+            <li class="answer1">
+              <label for="answer-box1"></label>
+              <input type="radio" id="answer-box1" name="answer-box" />
+              <span>answer</span>
+            </li>
+            <li class="answer2">
+              <label for="answer-box2"></label>
+              <input type="radio" id="answer-box2" name="answer-box" />
+              <span>answer</span>
+            </li>
+            <li class="answer3">
+              <label for="answer-box3"></label>
+              <input type="radio" id="answer-box3" name="answer-box" />
+              <span>answer</span>
+            </li>
+            <li class="answer4">
+              <label for="answer-box4"></label>
+              <input type="radio" id="answer-box4" name="answer-box" />
               <span>answer</span>
             </li>
           </ul>
@@ -54,6 +67,6 @@
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <script src="app.js" type="module"></script>
   </body>
 </html>

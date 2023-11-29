@@ -12,9 +12,10 @@ const createHeadersFn = (method, data) => {
     // TODO - maybe I have to add token for saving info in localStorage
 
     headers.method = method;
-    headers.headers = {
-        'Content-Type': 'application/json'
-    }
+    // headers.headers = {
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*'
+    // }
 
     // Include the request body for 'PUT' or 'POST' methods
     if (method === 'PUT' || method === 'POST') {
@@ -27,7 +28,7 @@ const createHeadersFn = (method, data) => {
 // Function to perform a fetch request using the specified endpoint and headers
 const fetchFn = (endpoint, headers) => {
     return fetch(url(endpoint), headers)
-        .then(response.json())
+        .then(response => response.json())
         .then(data => data)
         .catch(error => console.error('Error fetching data:', error));
 }

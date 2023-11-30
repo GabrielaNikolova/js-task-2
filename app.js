@@ -4,16 +4,17 @@ import { getFunction } from "./universalModule.js";
 // get the user selection 
 const quizFilterForm = document.getElementById('filter');
 const startQuiz = document.getElementById('start-quiz');
-
+const questionContainer = document.getElementById('q-container');
 const singleQuestion = document.getElementById('question');
 const answersList = document.getElementById('answers-list');
-const checkAnswer = document.getElementById('check');
+const checkResult = document.getElementById('check');
 const newGame = document.getElementById('new-game');
+const results = document.getElementById('results');
 
-
+let i = 0;
 let allQuestions = [];
+let selectedAnswers = new Set();
 let correct = '';
-let incorrect = '';
 
 // create endpoint according to user selection 
 const createEndpoint = () => {
@@ -55,10 +56,10 @@ quizFilterForm.addEventListener('submit', async (event) => {
 
     let endpoint = createEndpoint();
 
-// function for fetching the data 
+    // function for fetching the data 
     const questions = await getFunction(endpoint);
 
-    allQuestions = questions.results.map(({category, question: title, correct_answer, incorrect_answer}) => {
+    allQuestions = questions.results.map(({ category, question: title, correct_answer, incorrect_answers }) => {
         let singleQ = {
             category,
             title,
@@ -68,27 +69,25 @@ quizFilterForm.addEventListener('submit', async (event) => {
         return singleQ;
     });
 
-// set item to local storage 
+    // set item to local storage 
     localStorage.setItem('questions-list', JSON.stringify(allQuestions));
 
     console.log(allQuestions);
 
     startQuiz.textContent = 'Start the Quiz!'
-    startQuiz.disabled = false;
+    startQuiz.style.display = "";
 
 });
 
 // function for starting the quiz 
-let i = 0;
 startQuiz.addEventListener('click', () => {
     displayQuestion(allQuestions);
-    
-    if (i === allQuestions.length - 1) {
-        startQuiz.disabled = true;
-        checkAnswer.disabled = true;
-        newGame.disabled = false;
 
-        newGame.addEventListener('click', () =>{
+    if (i === allQuestions.length - 1) {
+        startQuiz.style.display = "none";
+        checkResult.style.display = "";
+
+        newGame.addEventListener('click', () => {
             singleQuestion.textContent = '';
             answersList.innerHTML = '';
             localStorage.clear();
@@ -97,7 +96,6 @@ startQuiz.addEventListener('click', () => {
 
     if (i >= 0) {
         startQuiz.textContent = 'Next Question'
-        checkAnswer.disabled = false;
     }
     i++;
 
@@ -125,27 +123,52 @@ function displayQuestion(allQuestions) {
 
     });
 
-    // selectOption(allQuestions[i]);
+    selectOption();
 }
 
 
-// options selection
-// function selectOption(currentQustion) {
-//     const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+// answers selection
+function selectOption() {
+    answersList.querySelectorAll('li').forEach(function (radioBtn) {
+        radioBtn.addEventListener('click', function () {
+            radioBtn.checked = true;
+            selectedAnswers.add(radioBtn.textContent);
 
-//     console.log(selectedAnswer.textContent);
-//     console.log(currentQustion.correct_answer);
-    
-//     if (selectedAnswer.textContent === currentQustion.correct_answer) {
-        
-//     }
+            // save answers to local storage 
+            localStorage.setItem('answers', Array.from(selectedAnswers));
 
-// }
+        })
+    });
+}
+
+// check results function 
+checkResult.addEventListener('click', () => {
+    check(allQuestions, selectedAnswers);
+});
+
+function check() {
+
+    let count = 0;
+    let rightAns = 0;
+
+    // get data from localStorage 
+    let correct = JSON.parse(localStorage.getItem('questions-list')).map(q => {
+        return q.correctAnswer;
+    });
+    let answered = localStorage.getItem('answers');
+
+    // compare data 
+    correct.forEach(a => {
+        count++;
+        if (answered.includes(a)) {
+            rightAns++;
+        }
+    })
 
 
+    // display results 
+    questionContainer.style.display = "none";
+    newGame.style.display = "";
 
-// TODO write function to save the list of questions to the localStorage
-
-// // get item from local storage 
-// let newObject = localStorage.getItem("questions-list");
-// console.log(JSON.parse(newObject));
+    results.innerHTML += `<p>Your score is ${rightAns} correct answer/s out of ${count} questions!</p>`;
+}

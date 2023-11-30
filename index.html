@@ -7,7 +7,7 @@
   </head>
   <body>
     <header class="page-header">
-      <h1>Quiz App</h1>
+      <h1>Quiz Game App</h1>
       <nav class="quiz-navigation">
         <form class="quiz-filter" id="filter" action="" method="get">
           <label for="category">Select category:</label>
@@ -32,38 +32,20 @@
             min="1"
             max="50"
             value="10" />
-          <button id="get-questions" type="submit">Start the Quiz</button>
+          <button id="get-questions" type="submit">Generate the Quiz</button>
         </form>
       </nav>
     </header>
     <main class="page-container">
-      <h2>Select one answer!</h2>
+      <!-- <h2>Select one answer!</h2> -->
       <section class="questions-container">
-        <article class="question-card">
-          <h3 class="question">First question</h3>
-          <ul class="answer-list">
-            <li class="answer1">
-              <label for="answer-box1"></label>
-              <input type="radio" id="answer-box1" name="answer-box" />
-              <span>answer</span>
-            </li>
-            <li class="answer2">
-              <label for="answer-box2"></label>
-              <input type="radio" id="answer-box2" name="answer-box" />
-              <span>answer</span>
-            </li>
-            <li class="answer3">
-              <label for="answer-box3"></label>
-              <input type="radio" id="answer-box3" name="answer-box" />
-              <span>answer</span>
-            </li>
-            <li class="answer4">
-              <label for="answer-box4"></label>
-              <input type="radio" id="answer-box4" name="answer-box" />
-              <span>answer</span>
-            </li>
-          </ul>
-        </article>
+        <h3 class="question" id="question"></h3>
+        <ul class="answer-list" id="answers-list"></ul>
+        <div class="quiz-buttons">
+          <button type="button" id="start-quiz" disabled>Start the Quiz!</button>
+          <button type="button" id="check" disabled>Check Answer</button>
+          <button type="button" id="new-game" disabled>New Game</button>
+        </div>
       </section>
     </main>
 

@@ -9,7 +9,6 @@ const url = (endpoint) => `${api}${endpoint}&type=multiple`;
 // Function to create headers for a fetch request
 const createHeadersFn = (method, data) => {
     const headers = {};
-    // TODO - maybe I have to add token for saving info in localStorage
 
     headers.method = method;
     // headers.headers = {

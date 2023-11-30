@@ -37,15 +37,18 @@
       </nav>
     </header>
     <main class="page-container">
-      <!-- <h2>Select one answer!</h2> -->
-      <section class="questions-container">
-        <h3 class="question" id="question"></h3>
+      <section class="questions-container" id="q-container">
+        <h2 class="question" id="question"></h2>
         <ul class="answer-list" id="answers-list"></ul>
         <div class="quiz-buttons">
-          <button type="button" id="start-quiz" disabled>Start the Quiz!</button>
-          <button type="button" id="check" disabled>Check Answer</button>
-          <button type="button" id="new-game" disabled>New Game</button>
+          <button type="button" id="start-quiz" style="display: none;">
+            Start the Quiz!
+          </button>
+          <button type="button" id="check" style="display: none;">Check Result</button>
         </div>
+      </section>
+      <section class="results" id="results">
+        <button type="button" id="new-game" style="display: none;">New Game</button>
       </section>
     </main>
 

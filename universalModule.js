@@ -5,7 +5,6 @@ const api = 'https://opentdb.com/api.php?';
 // Function to generate a complete URL
 const url = (endpoint) => `${api}${endpoint}&type=multiple`;
 
-
 // Function to create headers for a fetch request
 const createHeadersFn = (method, data) => {
     const headers = {};

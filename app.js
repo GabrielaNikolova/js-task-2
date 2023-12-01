@@ -6,13 +6,14 @@ const startQuiz = document.getElementById('start-quiz');
 const questionContainer = document.getElementById('q-container');
 const singleQuestion = document.getElementById('question');
 const answersList = document.getElementById('answers-list');
-const checkResult = document.getElementById('check');
+const checkRes = document.getElementById('check');
 const results = document.getElementById('results');
 
 let i = 0;
 let allQuestions = [];
 let selectedAnswers = new Set();
 let correct = '';
+
 
 // create endpoint according to user selection 
 function createEndpoint() {
@@ -88,7 +89,7 @@ startQuiz.addEventListener('click', (e) => {
 
     if (i === allQuestions.length - 1) {
         startQuiz.style.display = "none";
-        checkResult.style.display = "";
+        checkRes.style.display = "";
     }
 
     if (i >= 0) {
@@ -124,7 +125,7 @@ function displayQuestion(allQuestions) {
 }
 
 
-// answers selection
+// answers selection function
 function selectOption() {
     answersList.querySelectorAll('li').forEach(function (radioBtn) {
         radioBtn.addEventListener('click', function () {
@@ -138,13 +139,13 @@ function selectOption() {
     });
 }
 
-// check results function 
-checkResult.addEventListener('click', (e) => {
+checkRes.addEventListener('click', (e) => {
     e.preventDefault();
-    check(allQuestions, selectedAnswers);
+    checkResult(allQuestions, selectedAnswers);
 });
 
-function check() {
+// check results function 
+function checkResult() {
 
     let count = 0;
     let rightAns = 0;
@@ -164,6 +165,11 @@ function check() {
     })
 
     // display results 
+    displayResult(rightAns, count);
+}
+
+// display results function
+function displayResult(rightAns, count) {
     questionContainer.style.display = "none";
 
     const p = document.createElement('p');
@@ -173,12 +179,40 @@ function check() {
     newGameBtn.className = ('new-game');
     newGameBtn.id = 'new-game';
     newGameBtn.textContent = "New Game!";
+
+    const downloadBtn = document.createElement('button')
+    downloadBtn.className = ('download');
+    downloadBtn.id = 'download';
+    downloadBtn.textContent = "Download Results";
+
+
     results.appendChild(p);
     results.appendChild(newGameBtn);
+    results.appendChild(downloadBtn);
 
+    downloadZipFile(downloadBtn, rightAns, count);
+
+    // reset game
     resetQuiz(newGameBtn);
 }
 
+// function for download of the result in txt file
+function downloadZipFile(downloadBtn, rightAns, count) {
+    const worker = new Worker("./worker.js", { type: "module" });
+    downloadBtn.addEventListener('click', () => {
+
+        worker.onmessage = (e) => {
+            const blob = e.data;
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "QuizResult.zip";
+            link.click();
+        }
+        worker.postMessage({ rightAns, count });
+
+    })
+
+}
 
 // function for reseting the game 
 function resetQuiz(newGame) {
@@ -190,7 +224,7 @@ function resetQuiz(newGame) {
         answersList.innerHTML = '';
         questionContainer.style.display = "";
         localStorage.removeItem('answers');
-        checkResult.style.display = 'none';
+        checkRes.style.display = 'none';
         results.innerHTML = '';
     })
 };

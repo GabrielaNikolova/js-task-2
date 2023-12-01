@@ -1,14 +1,12 @@
 import { getFunction } from "./universalModule.js";
 
 
-// get the user selection 
 const quizFilterForm = document.getElementById('filter');
 const startQuiz = document.getElementById('start-quiz');
 const questionContainer = document.getElementById('q-container');
 const singleQuestion = document.getElementById('question');
 const answersList = document.getElementById('answers-list');
 const checkResult = document.getElementById('check');
-const newGame = document.getElementById('new-game');
 const results = document.getElementById('results');
 
 let i = 0;
@@ -17,7 +15,7 @@ let selectedAnswers = new Set();
 let correct = '';
 
 // create endpoint according to user selection 
-const createEndpoint = () => {
+function createEndpoint() {
     let amount = document.getElementById('amount').value;
     console.log(amount);
     let category = document.getElementById('category').value;
@@ -51,54 +49,53 @@ const createEndpoint = () => {
 
 // add event listener to the form to get the data and generate the quiz
 
-quizFilterForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
+function beginGame() {
+    quizFilterForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    let endpoint = createEndpoint();
+        let endpoint = createEndpoint();
 
-    // function for fetching the data 
-    const questions = await getFunction(endpoint);
+        // function for fetching the data 
+        const questions = await getFunction(endpoint);
 
-    allQuestions = questions.results.map(({ category, question: title, correct_answer, incorrect_answers }) => {
-        let singleQ = {
-            category,
-            title,
-            correctAnswer: correct_answer,
-            incorrectAnswers: incorrect_answers
-        };
-        return singleQ;
+        allQuestions = questions.results.map(({ category, question: title, correct_answer, incorrect_answers }) => {
+            let singleQ = {
+                category,
+                title,
+                correctAnswer: correct_answer,
+                incorrectAnswers: incorrect_answers
+            };
+            return singleQ;
+        });
+
+        // set item to local storage 
+        localStorage.setItem('questions-list', JSON.stringify(allQuestions));
+
+        console.log(allQuestions);
+
+        startQuiz.textContent = 'Start the Quiz!'
+        startQuiz.style.display = "";
+
     });
-
-    // set item to local storage 
-    localStorage.setItem('questions-list', JSON.stringify(allQuestions));
-
-    console.log(allQuestions);
-
-    startQuiz.textContent = 'Start the Quiz!'
-    startQuiz.style.display = "";
-
-});
+}
 
 // function for starting the quiz 
-startQuiz.addEventListener('click', () => {
+startQuiz.addEventListener('click', (e) => {
+    e.preventDefault();
+    quizFilterForm.style.display = "none";
+
     displayQuestion(allQuestions);
 
     if (i === allQuestions.length - 1) {
         startQuiz.style.display = "none";
         checkResult.style.display = "";
-
-        newGame.addEventListener('click', () => {
-            singleQuestion.textContent = '';
-            answersList.innerHTML = '';
-            localStorage.clear();
-        })
     }
 
     if (i >= 0) {
         startQuiz.textContent = 'Next Question'
     }
-    i++;
 
+    i++;
 });
 
 
@@ -142,7 +139,8 @@ function selectOption() {
 }
 
 // check results function 
-checkResult.addEventListener('click', () => {
+checkResult.addEventListener('click', (e) => {
+    e.preventDefault();
     check(allQuestions, selectedAnswers);
 });
 
@@ -165,10 +163,36 @@ function check() {
         }
     })
 
-
     // display results 
     questionContainer.style.display = "none";
-    newGame.style.display = "";
 
-    results.innerHTML += `<p>Your score is ${rightAns} correct answer/s out of ${count} questions!</p>`;
+    const p = document.createElement('p');
+    p.className = ('result');
+    p.textContent = `Your score is ${rightAns} correct answer/s out of ${count} questions!`;
+    const newGameBtn = document.createElement('button')
+    newGameBtn.className = ('new-game');
+    newGameBtn.id = 'new-game';
+    newGameBtn.textContent = "New Game!";
+    results.appendChild(p);
+    results.appendChild(newGameBtn);
+
+    resetQuiz(newGameBtn);
 }
+
+
+// function for reseting the game 
+function resetQuiz(newGame) {
+    newGame.addEventListener('click', (e) => {
+        i = 0;
+        selectedAnswers = new Set();
+        quizFilterForm.style.display = '';
+        singleQuestion.textContent = '';
+        answersList.innerHTML = '';
+        questionContainer.style.display = "";
+        localStorage.removeItem('answers');
+        checkResult.style.display = 'none';
+        results.innerHTML = '';
+    })
+};
+
+beginGame();

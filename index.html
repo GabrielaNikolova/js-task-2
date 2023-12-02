@@ -3,55 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <title>Quiz App</title>
   </head>
   <body>
-    <header class="page-header">
-      <h1>Quiz Game App</h1>
-      <nav class="quiz-navigation">
-        <form class="quiz-filter" id="filter" action="" method="get">
-          <label for="category">Select category:</label>
-          <select id="category">
-            <option value="general">General Knowledge</option>
-            <option value="geography">Geography</option>
-            <option value="history">History</option>
-            <option value="any" selected>Any category</option>
-          </select>
-          <label for="difficulty">Difficulty level:</label>
-          <select id="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-            <option value="any" selected>Any</option>
-          </select>
-          <label for="amount">Number of Questions:</label>
-          <input
-            type="number"
-            name="amount"
-            id="amount"
-            min="1"
-            max="50"
-            value="10" />
-          <button id="get-questions" type="submit">Generate the Quiz</button>
-        </form>
-      </nav>
-    </header>
-    <main class="page-container">
-      <section class="questions-container" id="q-container">
-        <h2 class="question" id="question"></h2>
-        <ul class="answer-list" id="answers-list"></ul>
-        <div class="quiz-buttons">
-          <button type="button" id="start-quiz" style="display: none">
-            Start the Quiz!
-          </button>
-          <button type="button" id="check" style="display: none">
-            Check Result
-          </button>
-        </div>
-      </section>
-      <section class="results" id="results"></section>
-    </main>
-
+    <div id="page-layout">
+      <header class="page-header">
+        <h1>Quiz Game App</h1>
+        <nav class="quiz-navigation">
+          <form class="quiz-filter" id="filter" action="" method="get">
+            <label class="label" for="category">Select category:</label>
+            <select class="select" id="category">
+              <option value="general">General Knowledge</option>
+              <option value="geography">Geography</option>
+              <option value="history">History</option>
+              <option value="any" selected>Any category</option>
+            </select>
+            <label class="label" for="difficulty">Difficulty level:</label>
+            <select class="select" id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+              <option value="any" selected>Any</option>
+            </select>
+            <label class="label" for="amount">Number of Questions:</label>
+            <input
+              class="select"
+              type="number"
+              name="amount"
+              id="amount"
+              min="1"
+              max="50"
+              value="10" />
+            <button class="button" id="get-questions" type="submit">
+              Generate the Quiz
+            </button>
+          </form>
+        </nav>
+      </header>
+      <main class="page-container">
+        <section class="questions-container" id="q-container">
+          <h2 class="question" id="question"></h2>
+          <ul class="answer-list" id="answers-list"></ul>
+          <div class="quiz-buttons">
+            <button
+              class="button"
+              type="button"
+              id="start-quiz"
+              style="display: none">
+              Start the Quiz!
+            </button>
+            <button
+              class="button"
+              type="button"
+              id="check"
+              style="display: none">
+              Check Result
+            </button>
+          </div>
+        </section>
+        <section class="results" id="results"></section>
+      </main>
+    </div>
     <script src="app.js" type="module"></script>
   </body>
 </html>

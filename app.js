@@ -51,6 +51,9 @@ function createEndpoint() {
 // add event listener to the form to get the data and generate the quiz
 
 function beginGame() {
+    questionContainer.className = "hidden";
+    results.className = "hidden";
+
     quizFilterForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -102,6 +105,9 @@ startQuiz.addEventListener('click', (e) => {
 
 // function for displaying the questions one by one 
 function displayQuestion(allQuestions) {
+    questionContainer.className = "questions-container";
+    startQuiz.className = "button nextq";
+
     singleQuestion.innerHTML = allQuestions[i].title;
     correct = allQuestions[i].correctAnswer;
     let incorrectAnswer = allQuestions[i].incorrectAnswers;
@@ -115,7 +121,7 @@ function displayQuestion(allQuestions) {
         const li = document.createElement('li');
         const label = document.createElement('label');
         label.className = 'answer';
-        label.innerHTML = `<input type="radio" name="answer" value="${index + 1}"> ${option}`;
+        label.innerHTML = `<input class="radio" type="radio" name="answer" value="${index + 1}"> ${option}`;
         li.appendChild(label);
         answersList.appendChild(li);
 
@@ -171,24 +177,30 @@ function checkResult() {
 // display results function
 function displayResult(rightAns, count) {
     questionContainer.style.display = "none";
+    results.className = "results";
 
     const p = document.createElement('p');
     p.className = ('result');
     p.textContent = `Your score is ${rightAns} correct answer/s out of ${count} questions!`;
+
+    const div = document.createElement('div');
+    div.className = ('result-buttons');
+
     const newGameBtn = document.createElement('button')
-    newGameBtn.className = ('new-game');
+    newGameBtn.className = ('new-game button');
     newGameBtn.id = 'new-game';
     newGameBtn.textContent = "New Game!";
 
     const downloadBtn = document.createElement('button')
-    downloadBtn.className = ('download');
+    downloadBtn.className = ('download button');
     downloadBtn.id = 'download';
     downloadBtn.textContent = "Download Results";
 
 
+    div.appendChild(newGameBtn);
+    div.appendChild(downloadBtn);
     results.appendChild(p);
-    results.appendChild(newGameBtn);
-    results.appendChild(downloadBtn);
+    results.appendChild(div);
 
     downloadZipFile(downloadBtn, rightAns, count);
 
@@ -223,9 +235,13 @@ function resetQuiz(newGame) {
         singleQuestion.textContent = '';
         answersList.innerHTML = '';
         questionContainer.style.display = "";
-        localStorage.removeItem('answers');
         checkRes.style.display = 'none';
         results.innerHTML = '';
+        localStorage.removeItem('answers');
+
+        startQuiz.className = "button start-quiz";
+        questionContainer.className = "hidden";
+        results.className = "hidden";
     })
 };
 

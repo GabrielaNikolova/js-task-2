@@ -1,0 +1,174 @@
+:root {
+  font-family: "Patrick Hand SC", sans-serif;
+  font-weight: normal;
+  /* font-size: calc(15px + .390625vw); */
+  font-size: 62.5%;
+  --font-size-sm: clamp(1.28rem, 0.17vw + 1.21rem, 1.43rem);
+  --font-size-base: clamp(1.6rem, 0.34vw + 1.46rem, 1.9rem);
+  --font-size-md: clamp(2rem, 0.61vw + 1.76rem, 2.53rem);
+  --font-size-lg: clamp(2.5rem, 1vw + 2.1rem, 3.38rem);
+  --font-size-xl: clamp(3.13rem, 1.56vw + 2.5rem, 4.5rem);
+  --font-size-xxl: clamp(3.91rem, 2.38vw + 2.96rem, 6rem);
+  --font-size-xxxl: clamp(4.88rem, 3.54vw + 3.47rem, 8rem);
+  --light-blue: #8ecae6;
+  --blue: #219ebc;
+  --dark-blue: #023047;
+  --yellow: #ffb703;
+  --orange: #fb8500;
+  --border-radius: 5px;
+  --nav-heigth: 80px;
+  scroll-behavior: smooth;
+}
+
+.box {
+  box-sizing: border-box;
+}
+
+#page-layout {
+  display: grid;
+  grid-template-columns: repeat(6, 2fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 1rem;
+}
+
+body {
+  height: 100%;
+  max-width: 2500px;
+  margin: 0px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+  font-size: var(--font-size-base);
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0px 0px 10px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+p {
+  margin: 0;
+}
+
+.button {
+  background-color: var(--yellow);
+  border-radius: var(--border-radius);
+  font-family: "Patrick Hand SC";
+  font-size: var(--font-size-base);
+  text-align: center;
+  border-style: none;
+}
+
+.page-header {
+  grid-area: 1/1/2/7;
+  justify-self: center;
+  align-self: center;
+  max-width: 100%;
+  padding: 8rem 10rem;
+}
+
+.page-container {
+  grid-area: 2/2/4/6;
+  justify-self: center;
+  align-self: center;
+  max-height: 100%;
+}
+
+.page-header h1 {
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-xxl);
+  align-items: center;
+  margin: 0;
+}
+
+/* .quiz-navigation{
+    display: flex;
+    flex-wrap: wrap;
+} */
+
+.quiz-filter {
+  display: flex;
+  margin-top: 1rem;
+  padding: 2rem;
+  max-width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(33, 158, 188, 0.5);
+  border-radius: var(--border-radius);
+}
+
+.select {
+  background-color: rgb(255, 183, 3, 0.7);
+  border-radius: var(--border-radius);
+  font-family: "Patrick Hand SC";
+  text-align: center;
+  border-style: none;
+  padding: 0.2rem;
+  margin: 2rem;
+}
+
+.questions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  max-width: 100%;
+  background-color: rgb(251, 133, 0, 0.7);
+  border-radius: 2rem;
+}
+
+.question {
+  text-align: justify;
+  font-size: var(--font-size-lg);
+}
+
+.answer-list {
+  list-style: none;
+  margin: 0;
+  padding: 2rem;
+  font-size: var(--font-size-md);
+}
+
+.quiz-buttons {
+  align-self: center;
+  padding: 0, 1rem;
+}
+
+.nextq,
+#check {
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  background-color: rgb(33, 158, 188, 0.5);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+}
+
+.result {
+  padding: 2rem;
+  font-size: var(--font-size-md);
+}
+
+.result-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-game,
+.download {
+  margin: 1rem;
+}

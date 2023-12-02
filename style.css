@@ -26,9 +26,12 @@
 
 #page-layout {
   display: grid;
-  grid-template-columns: repeat(6, 2fr);
-  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
+  /* grid-template-columns: repeat(6, 2fr); */
+  grid-template-rows: repeat(2, minmax(150px, 1fr));
   gap: 1rem;
+  width: 100%;
+  max-height: 100vh;
 }
 
 body {
@@ -66,18 +69,20 @@ p {
 }
 
 .page-header {
-  grid-area: 1/1/2/7;
+  grid-area: 1/1/2/-1;
   justify-self: center;
+  position: relative;
   align-self: center;
   max-width: 100%;
-  padding: 8rem 10rem;
+  max-height: 100%;
+  padding: 5rem 8rem;
 }
 
 .page-container {
-  grid-area: 2/2/4/6;
+  grid-area: 2/1/-1/-1;
   justify-self: center;
   align-self: center;
-  max-height: 100%;
+  max-height: 100vh;
 }
 
 .page-header h1 {
@@ -95,7 +100,7 @@ p {
 
 .quiz-filter {
   display: flex;
-  margin-top: 1rem;
+  margin-top: 2rem;
   padding: 2rem;
   max-width: 100%;
   justify-content: space-between;
@@ -118,6 +123,7 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 2rem;
   max-width: 100%;
   background-color: rgb(251, 133, 0, 0.7);
@@ -171,4 +177,20 @@ p {
 .new-game,
 .download {
   margin: 1rem;
+}
+
+@media screen and (max-width: 650px) {
+  #page-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-header,
+  .page-container,
+  .quiz-filter {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin: 1rem;
+  }
 }

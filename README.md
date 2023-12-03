@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Quizz App</h1>
 
-<p id="description">The Quiz App is a web application designed to allow users to participate in quizzes across various categories. Users can pick up different categories difficulty levels and number of questions. They can explore different quizzes answer questions and get feedback of their scores.</p>
+<p id="description">The Quiz App is a web application designed to allow users to participate in quizzes across various categories. Users can pick up different categories, difficulty levels and number of questions. They can explore different quizzes, answer questions and get feedback of their scores.</p>
 
 <h2>Demo</h2>
 

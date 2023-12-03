@@ -153,6 +153,12 @@ p {
   color: var(--dark-blue);
 }
 
+
+#alert{
+  font-size: var(--font-size-md);
+  color: red;
+}
+
 .results {
   display: flex;
   flex-direction: column;

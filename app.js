@@ -3,6 +3,7 @@ import { getFunction } from "./universalModule.js";
 
 const quizFilterForm = document.getElementById('filter');
 const startQuiz = document.getElementById('start-quiz');
+const nextQ = document.getElementById('nextq');
 const questionContainer = document.getElementById('q-container');
 const singleQuestion = document.getElementById('question');
 const answersList = document.getElementById('answers-list');
@@ -62,9 +63,10 @@ function beginGame() {
         // function for fetching the data 
         const questions = await getFunction(endpoint);
 
-        allQuestions = questions.results.map(({ category, question: title, correct_answer, incorrect_answers }) => {
+        allQuestions = questions.results.map(({ category, difficulty, question: title, correct_answer, incorrect_answers }) => {
             let singleQ = {
                 category,
+                difficulty,
                 title,
                 correctAnswer: correct_answer,
                 incorrectAnswers: incorrect_answers
@@ -77,28 +79,35 @@ function beginGame() {
 
         console.log(allQuestions);
 
-        startQuiz.textContent = 'Start the Quiz!'
         startQuiz.style.display = "";
 
     });
+
+
 }
 
 // function for starting the quiz 
 startQuiz.addEventListener('click', (e) => {
     e.preventDefault();
     quizFilterForm.style.display = "none";
+    startQuiz.style.display = "none";
+    nextQ.style.display = "";
 
     displayQuestion(allQuestions);
 
+    i++;
+});
+
+// function for changing the question 
+nextQ.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    checkIfSelected(allQuestions, displayQuestion, selectOption);
+
     if (i === allQuestions.length - 1) {
-        startQuiz.style.display = "none";
+        nextQ.style.display = "none";
         checkRes.style.display = "";
     }
-
-    if (i >= 0) {
-        startQuiz.textContent = 'Next Question'
-    }
-
     i++;
 });
 
@@ -106,7 +115,7 @@ startQuiz.addEventListener('click', (e) => {
 // function for displaying the questions one by one 
 function displayQuestion(allQuestions) {
     questionContainer.className = "questions-container";
-    startQuiz.className = "button nextq";
+    nextQ.className = "button nextq";
 
     singleQuestion.innerHTML = allQuestions[i].title;
     correct = allQuestions[i].correctAnswer;
@@ -119,6 +128,7 @@ function displayQuestion(allQuestions) {
 
     options.map((option, index) => {
         const li = document.createElement('li');
+        li.className = 'radio-btn';
         const label = document.createElement('label');
         label.className = 'answer';
         label.innerHTML = `<input class="radio" type="radio" name="answer" value="${index + 1}"> ${option}`;
@@ -135,7 +145,7 @@ function displayQuestion(allQuestions) {
 function selectOption() {
     answersList.querySelectorAll('li').forEach(function (radioBtn) {
         radioBtn.addEventListener('click', function () {
-            radioBtn.checked = true;
+
             selectedAnswers.add(radioBtn.textContent);
 
             // save answers to local storage 
@@ -147,7 +157,9 @@ function selectOption() {
 
 checkRes.addEventListener('click', (e) => {
     e.preventDefault();
-    checkResult(allQuestions, selectedAnswers);
+
+    checkIfSelected('', checkResult, selectOption);
+
 });
 
 // check results function 
@@ -239,10 +251,35 @@ function resetQuiz(newGame) {
         results.innerHTML = '';
         localStorage.removeItem('answers');
 
-        startQuiz.className = "button start-quiz";
+        // startQuiz.className = "button start-quiz";
         questionContainer.className = "hidden";
         results.className = "hidden";
     })
 };
+
+
+
+function checkIfSelected(variable, func1, func2) {
+    let checked = document.querySelector('input[name = "answer"]:checked');
+
+    if (checked != null) {  //Test if something was checked
+
+        const alert = document.getElementById('alert');
+
+        if (alert != null) {
+            alert.remove();
+        }
+
+        func1(variable);
+    } else {
+        const p = document.createElement('p');
+        p.id = ('alert');
+        p.textContent = `Please select an Answer!`;
+        questionContainer.appendChild(p);
+        i--;
+        func2();
+    }
+}
+
 
 beginGame();

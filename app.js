@@ -51,7 +51,7 @@ function createEndpoint() {
 
 // add event listener to the form to get the data and generate the quiz
 
-function beginGame() {
+function generateQuiz() {
     questionContainer.className = "hidden";
     results.className = "hidden";
 
@@ -73,6 +73,7 @@ function beginGame() {
             };
             return singleQ;
         });
+
 
         // set item to local storage 
         localStorage.setItem('questions-list', JSON.stringify(allQuestions));
@@ -146,10 +147,11 @@ function selectOption() {
     answersList.querySelectorAll('li').forEach(function (radioBtn) {
         radioBtn.addEventListener('click', function () {
 
-            selectedAnswers.add(radioBtn.textContent);
+            selectedAnswers.add(radioBtn.textContent.trim());
+            console.log(selectedAnswers);
 
             // save answers to local storage 
-            localStorage.setItem('answers', Array.from(selectedAnswers));
+            localStorage.setItem('answers', JSON.stringify(Array.from(selectedAnswers)));
 
         })
     });
@@ -170,9 +172,9 @@ function checkResult() {
 
     // get data from localStorage 
     let correct = JSON.parse(localStorage.getItem('questions-list')).map(q => {
-        return q.correctAnswer;
+        return HTMLDecode(q.correctAnswer);
     });
-    let answered = localStorage.getItem('answers');
+    let answered = JSON.parse(localStorage.getItem('answers'));
 
     // compare data 
     correct.forEach(a => {
@@ -232,7 +234,21 @@ function downloadZipFile(downloadBtn, rightAns, count) {
             link.download = "QuizResult.zip";
             link.click();
         }
-        worker.postMessage({ rightAns, count });
+
+        // get data from localStorage 
+        let questionsCorrectAnswers = JSON.parse(localStorage.getItem('questions-list')).map(q => {
+            let question = {
+                title: HTMLDecode(q.title),
+                correctAnswer: HTMLDecode(q.correctAnswer)
+            }
+
+            console.log(question.title);
+            console.log(question.correctAnswer);
+            return question;
+        });
+        let answered = JSON.parse(localStorage.getItem('answers'));
+
+        worker.postMessage({ rightAns, count, questionsCorrectAnswers, answered });
 
     })
 
@@ -257,7 +273,7 @@ function resetQuiz(newGame) {
 };
 
 
-
+//function for checking if there is a selected answer
 function checkIfSelected(variable, func1, func2) {
     let checked = document.querySelector('input[name = "answer"]:checked');
 
@@ -281,4 +297,11 @@ function checkIfSelected(variable, func1, func2) {
 }
 
 
-beginGame();
+// to convert html entities into normal text
+function HTMLDecode(textString) {
+    let doc = new DOMParser().parseFromString(textString, "text/html");
+    return doc.documentElement.textContent;
+}
+
+
+generateQuiz();

@@ -251,7 +251,6 @@ function resetQuiz(newGame) {
         results.innerHTML = '';
         localStorage.removeItem('answers');
 
-        // startQuiz.className = "button start-quiz";
         questionContainer.className = "hidden";
         results.className = "hidden";
     })

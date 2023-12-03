@@ -216,6 +216,7 @@ function displayResult(rightAns, count) {
     results.appendChild(p);
     results.appendChild(div);
 
+    //download results feedback
     downloadZipFile(downloadBtn, rightAns, count);
 
     // reset game

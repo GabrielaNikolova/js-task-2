@@ -93,11 +93,6 @@ p {
   margin: 0;
 }
 
-/* .quiz-navigation{
-    display: flex;
-    flex-wrap: wrap;
-} */
-
 .quiz-filter {
   display: flex;
   margin-top: 2rem;

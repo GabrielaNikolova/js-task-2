@@ -153,7 +153,7 @@ function checkIfSelected(variable, func1, func2) {
     let checked = document.querySelector('input[name = "answer"]:checked');
 
     if (checked != null) {
-//Test if something was checked
+        //Test if something was checked
 
         const alert = document.getElementById("alert");
 

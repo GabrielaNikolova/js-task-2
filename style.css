@@ -79,6 +79,7 @@ p {
 }
 
 .page-container {
+  display: grid;
   grid-area: 2/1/-1/-1;
   justify-self: center;
   align-self: center;
@@ -117,10 +118,11 @@ p {
 .questions-container {
   display: flex;
   flex-direction: column;
+  justify-self: center;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  max-width: 100%;
+  max-width: 80%;
   background-color: rgb(251, 133, 0, 0.7);
   border-radius: 2rem;
 }

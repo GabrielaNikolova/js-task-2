@@ -229,7 +229,7 @@ function displayResults(rightAns, count, correct, answered) {
 
     const p = document.createElement("p");
     p.className = "result";
-    p.textContent = `Your score is ${rightAns} correct answer/s out of ${count} questions!<br><br>${text.join('')}`;
+    p.innerHTML = `Your score is ${rightAns} correct answer/s out of ${count} questions!<br><br>${text.join('')}`;
 
 
     div.appendChild(newGameBtn);

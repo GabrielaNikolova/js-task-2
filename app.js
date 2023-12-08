@@ -238,14 +238,14 @@ function displayResults(rightAns, count, correct, answered) {
     results.appendChild(p);
 
     //download results feedback
-    downloadZipFile(downloadBtn, rightAns, count, correct, answered);
+    downloadZipFile(downloadBtn, rightAns, count, text);
 
     // reset game
     resetQuiz(newGameBtn);
 }
 
 // function for download of the result in txt file
-function downloadZipFile(downloadBtn, rightAns, count, correct, answered) {
+function downloadZipFile(downloadBtn, rightAns, count, text) {
     const worker = new Worker("./worker.js", { type: "module" });
     downloadBtn.addEventListener("click", () => {
         worker.onmessage = (e) => {
@@ -256,7 +256,7 @@ function downloadZipFile(downloadBtn, rightAns, count, correct, answered) {
             link.click();
         };
 
-        worker.postMessage({ rightAns, count, correct, answered });
+        worker.postMessage({ rightAns, count, text });
     });
 }
 

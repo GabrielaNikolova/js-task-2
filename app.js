@@ -203,13 +203,9 @@ function checkResult() {
 }
 
 // display results function
-function displayResult(rightAns, count) {
+function displayResults(rightAns, count, correct, answered) {
     questionContainer.style.display = "none";
     results.className = "results";
-
-    const p = document.createElement("p");
-    p.className = "result";
-    p.textContent = `Your score is ${rightAns} correct answer/s out of ${count} questions!`;
 
     const div = document.createElement("div");
     div.className = "result-buttons";
@@ -224,20 +220,32 @@ function displayResult(rightAns, count) {
     downloadBtn.id = "download";
     downloadBtn.textContent = "Download Results";
 
+
+    const text = correct.map((el, index) => {
+        let i = index;
+        return `- ${el.title}<br>Correct answer: ${el.correctAnswer}<br>Your answer: ${answered[i]}<br><br>`;
+
+    });
+
+    const p = document.createElement("p");
+    p.className = "result";
+    p.textContent = `Your score is ${rightAns} correct answer/s out of ${count} questions!<br><br>${text.join('')}`;
+
+
     div.appendChild(newGameBtn);
     div.appendChild(downloadBtn);
-    results.appendChild(p);
     results.appendChild(div);
+    results.appendChild(p);
 
     //download results feedback
-    downloadZipFile(downloadBtn, rightAns, count);
+    downloadZipFile(downloadBtn, rightAns, count, correct, answered);
 
     // reset game
     resetQuiz(newGameBtn);
 }
 
 // function for download of the result in txt file
-function downloadZipFile(downloadBtn, rightAns, count) {
+function downloadZipFile(downloadBtn, rightAns, count, correct, answered) {
     const worker = new Worker("./worker.js", { type: "module" });
     downloadBtn.addEventListener("click", () => {
         worker.onmessage = (e) => {
@@ -248,21 +256,7 @@ function downloadZipFile(downloadBtn, rightAns, count) {
             link.click();
         };
 
-        // get data from localStorage
-        let questionsCorrectAnswers = JSON.parse(
-            localStorage.getItem("questions-list")).map((q) => {
-                let question = {
-                    title: HTMLDecode(q.title),
-                    correctAnswer: HTMLDecode(q.correctAnswer),
-                };
-
-                console.log(question.title);
-                console.log(question.correctAnswer);
-                return question;
-            });
-        let answered = JSON.parse(localStorage.getItem("answers"));
-
-        worker.postMessage({ rightAns, count, questionsCorrectAnswers, answered });
+        worker.postMessage({ rightAns, count, correct, answered });
     });
 }
 

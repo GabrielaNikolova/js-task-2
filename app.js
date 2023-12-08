@@ -182,20 +182,24 @@ function checkResult() {
 
     // get data from localStorage
     let correct = JSON.parse(localStorage.getItem("questions-list")).map((q) => {
-        return HTMLDecode(q.correctAnswer);
+        let question = {
+            title: HTMLDecode(q.title),
+            correctAnswer: HTMLDecode(q.correctAnswer)
+        }
+        return question;
     });
     let answered = JSON.parse(localStorage.getItem("answers"));
 
     // compare data
     correct.forEach((a) => {
         count++;
-        if (answered.includes(a)) {
+        if (answered.includes(a.correctAnswer)) {
             rightAns++;
         }
     });
 
     // display results
-    displayResult(rightAns, count);
+    displayResults(rightAns, count, correct, answered);
 }
 
 // display results function
@@ -246,17 +250,16 @@ function downloadZipFile(downloadBtn, rightAns, count) {
 
         // get data from localStorage
         let questionsCorrectAnswers = JSON.parse(
-            localStorage.getItem("questions-list")
-        ).map((q) => {
-            let question = {
-                title: HTMLDecode(q.title),
-                correctAnswer: HTMLDecode(q.correctAnswer),
-            };
+            localStorage.getItem("questions-list")).map((q) => {
+                let question = {
+                    title: HTMLDecode(q.title),
+                    correctAnswer: HTMLDecode(q.correctAnswer),
+                };
 
-            console.log(question.title);
-            console.log(question.correctAnswer);
-            return question;
-        });
+                console.log(question.title);
+                console.log(question.correctAnswer);
+                return question;
+            });
         let answered = JSON.parse(localStorage.getItem("answers"));
 
         worker.postMessage({ rightAns, count, questionsCorrectAnswers, answered });
